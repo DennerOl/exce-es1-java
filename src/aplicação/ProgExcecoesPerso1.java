@@ -34,24 +34,17 @@ public class ProgExcecoesPerso1 {
 			checkIn = sdf.parse(sc.next());
 			System.out.print("Digite o Check-out (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
-
-			/*
-			 * programa não pode aceitar datas aterior a de agora (solução ruim) data de
-			 * chekin ou checkout for antes não aceita
+			
+			/*Se meu string retornar do metodo um valor diferente de null
+			 * significa que tem um erro nele (versão ruim)
 			 */
-
-			Date agora = new Date();
-			if (checkIn.before(agora) || checkOut.before(agora)) {
-				System.out.println("Erro: As Datas devem ser futuras ");
-			} 
-			else if (!checkOut.after(checkIn)) {
-				System.out.println("Erro: A data de check-out deve ser posterior à data de check-in ");
-			} 
-			else {
-				reserva.atualizaData(checkIn, checkOut);
-				System.out.println("Reserva: " + reserva);
+			String error = reserva.atualizaData(checkIn, checkOut);
+			if (error != null) {
+				System.out.println("Erro: " + error);
 			}
-
+			else {
+			System.out.println("Reserva: " + reserva);
+			}
 		}
 		sc.close();
 	}

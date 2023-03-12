@@ -61,17 +61,28 @@ public class Reservas {
 		return TimeUnit.DAYS.convert(dif,TimeUnit.MILLISECONDS);
 	}
 	
-	public void atualizaData (Date checkIn, Date checkOut) {
+	public String atualizaData (Date checkIn, Date checkOut) {
+		Date agora = new Date();
+		if (checkIn.before(agora) || checkOut.before(agora)) {
+			return "Erro: As Datas devem ser futuras ";
+		} 
+		if (!checkOut.after(checkIn)) {
+			return "Erro: A data de check-out deve ser posterior à data de check-in ";
+		} 
+		/*Se a execução passar pelos ifs o metodo pede para retornar um valor 
+		 * que pode ser nulo 
+		 */
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return null;
 	}
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	// imprimir data no toString tenho que converter nesse formato acima
 	@Override
 	public String toString() {
-		return "Quarto" + numeroQuarto + ", check-in: " + sdf.format(checkIn) + ", check-out: "
-				+ sdf.format(checkOut) + ", " + duracao()+ "Noites " ;
+		return "Quarto " + numeroQuarto + ", check-in: " + sdf.format(checkIn) + ", check-out: "
+				+ sdf.format(checkOut) + ", " + duracao()+ " Noites " ;
 	}
 	
 }
