@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.excecoes.DomainException;
+
 public class Reservas {
 
 	private Integer numeroQuarto;
@@ -11,7 +13,10 @@ public class Reservas {
 	private Date checkOut;
 	
 	
-	public Reservas(Integer numeroQuarto, Date checkIn, Date checkOut) {
+	public Reservas(Integer numeroQuarto, Date checkIn, Date checkOut)  {
+		if (!checkOut.after(checkIn)) {
+			throw new DomainException ("Erro: A data de check-out deve ser posterior à data de check-in ");
+		} 
 		this.numeroQuarto = numeroQuarto;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -61,20 +66,23 @@ public class Reservas {
 		return TimeUnit.DAYS.convert(dif,TimeUnit.MILLISECONDS);
 	}
 	
-	public String atualizaData (Date checkIn, Date checkOut) {
+	/*
+	 * throws para tratar exceção personalizada da classe domain modo Exception 
+	 * porque sou obrigado a trata-la. coloca  "throws DomainException"
+	 * 
+	 */
+	public void atualizaData (Date checkIn, Date checkOut) {
 		Date agora = new Date();
 		if (checkIn.before(agora) || checkOut.before(agora)) {
-			return "Erro: As Datas devem ser futuras ";
+	// uso esta exceção quando os argumentos que passo para o metodo é invalido
+			throw new DomainException ("Erro: As Datas devem ser futuras ");
 		} 
 		if (!checkOut.after(checkIn)) {
-			return "Erro: A data de check-out deve ser posterior à data de check-in ";
+			throw new DomainException ("Erro: A data de check-out deve ser posterior à data de check-in ");
 		} 
-		/*Se a execução passar pelos ifs o metodo pede para retornar um valor 
-		 * que pode ser nulo 
-		 */
+		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		return null;
 	}
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
