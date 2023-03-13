@@ -27,6 +27,7 @@ public class ProgExcecoesPerso1 {
 		} 
 		else {
 			Reservas reserva = new Reservas(n, checkIn, checkOut);
+			System.out.println();
 			System.out.println("Reserva: " + reserva);
 			System.out.println();
 			System.out.println("Entre com a data para atualizar à reserva ");
